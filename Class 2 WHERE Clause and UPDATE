@@ -1,0 +1,141 @@
+
+mysql> desc students;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| Id       | int          | NO   | PRI | NULL    | auto_increment |
+| Name     | varchar(255) | YES  |     | NULL    |                |
+| Rollno   | varchar(255) | YES  |     | NULL    |                |
+| Address  | varchar(255) | YES  |     | NULL    |                |
+| Semester | varchar(255) | YES  |     | NULL    |                |
+| GPA      | varchar(255) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> ALTER TABLE students ADD COLUMN Age INT AFTER Rollno;
+Query OK, 3 rows affected (0.07 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> DESC students;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| Id       | int          | NO   | PRI | NULL    | auto_increment |
+| Name     | varchar(255) | YES  |     | NULL    |                |
+| Rollno   | varchar(255) | YES  |     | NULL    |                |
+| Age      | int          | YES  |     | NULL    |                |
+| Address  | varchar(255) | YES  |     | NULL    |                |
+| Semester | varchar(255) | YES  |     | NULL    |                |
+| GPA      | varchar(255) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM students;
++----+--------------+-----------+------+-----------+----------+------+
+| Id | Name         | Rollno    | Age  | Address   | Semester | GPA  |
++----+--------------+-----------+------+-----------+----------+------+
+|  1 | M-Uzair      | CS-22/271 | NULL | Jehangira | 6th      | 3.61 |
+|  2 | Amir ali     | CS-22/269 | NULL | Jehangira | 6th      | NULL |
+|  3 | Zaheer Abbas | CS-22/255 | NULL | Thano     | 6th      | NULL |
++----+--------------+-----------+------+-----------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE students set Age = 21 WHERE Id = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM students;
++----+--------------+-----------+------+-----------+----------+------+
+| Id | Name         | Rollno    | Age  | Address   | Semester | GPA  |
++----+--------------+-----------+------+-----------+----------+------+
+|  1 | M-Uzair      | CS-22/271 |   21 | Jehangira | 6th      | 3.61 |
+|  2 | Amir ali     | CS-22/269 | NULL | Jehangira | 6th      | NULL |
+|  3 | Zaheer Abbas | CS-22/255 | NULL | Thano     | 6th      | NULL |
++----+--------------+-----------+------+-----------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE students set Age = 22 AFTER Id = 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AFTER Id = 1' at line 1
+mysql> UPDATE students set Age = 22 WHERE Id = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE students set Age = 23 WHERE Id = 3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM students;
++----+--------------+-----------+------+-----------+----------+------+
+| Id | Name         | Rollno    | Age  | Address   | Semester | GPA  |
++----+--------------+-----------+------+-----------+----------+------+
+|  1 | M-Uzair      | CS-22/271 |   21 | Jehangira | 6th      | 3.61 |
+|  2 | Amir ali     | CS-22/269 |   22 | Jehangira | 6th      | NULL |
+|  3 | Zaheer Abbas | CS-22/255 |   23 | Thano     | 6th      | NULL |
++----+--------------+-----------+------+-----------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Name, Rollno, Semester WHERE Age > 21;
+ERROR 1054 (42S22): Unknown column 'Name' in 'field list'
+mysql> SELECT Name, Rollno, Semester FROM students WHERE Age > 21;
++--------------+-----------+----------+
+| Name         | Rollno    | Semester |
++--------------+-----------+----------+
+| Amir ali     | CS-22/269 | 6th      |
+| Zaheer Abbas | CS-22/255 | 6th      |
++--------------+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Name, Rollno, Age, Semester FROM students WHERE Age > 21;
++--------------+-----------+------+----------+
+| Name         | Rollno    | Age  | Semester |
++--------------+-----------+------+----------+
+| Amir ali     | CS-22/269 |   22 | 6th      |
+| Zaheer Abbas | CS-22/255 |   23 | 6th      |
++--------------+-----------+------+----------+
+2 rows in set (0.00 sec)
+
+
+mysql> INSERT into students (Name, Rollno, Age, Address, Semester, GPA) VALUES ("Maaz Khan", "CS-22/285", 23, "New Naher
+ Jehangira", "5th", 3.21);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM students WHERE Address = "Jehangira";
++----+----------+-----------+------+-----------+----------+------+
+| Id | Name     | Rollno    | Age  | Address   | Semester | GPA  |
++----+----------+-----------+------+-----------+----------+------+
+|  1 | M-Uzair  | CS-22/271 |   21 | Jehangira | 6th      | 3.61 |
+|  2 | Amir ali | CS-22/269 |   22 | Jehangira | 6th      | NULL |
++----+----------+-----------+------+-----------+----------+------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM students WHERE Address LIKE "%Jehangira%";
++----+-----------+-----------+------+---------------------+----------+------+
+| Id | Name      | Rollno    | Age  | Address             | Semester | GPA  |
++----+-----------+-----------+------+---------------------+----------+------+
+|  1 | M-Uzair   | CS-22/271 |   21 | Jehangira           | 6th      | 3.61 |
+|  2 | Amir ali  | CS-22/269 |   22 | Jehangira           | 6th      | NULL |
+|  5 | Maaz Khan | CS-22/285 |   23 | New Naher Jehangira | 5th      | 3.21 |
++----+-----------+-----------+------+---------------------+----------+------+
+3 rows in set (0.01 sec)
+
+mysql> UPDATE students set Address = "Tordher Swabi" WHERE Id = 1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM students WHERE Address LIKE "%Swabi%";
++----+----------+-----------+------+-----------------+----------+------+
+| Id | Name     | Rollno    | Age  | Address         | Semester | GPA  |
++----+----------+-----------+------+-----------------+----------+------+
+|  1 | M-Uzair  | CS-22/271 |   21 | Tordher Swabi   | 6th      | 3.61 |
+|  2 | Amir ali | CS-22/269 |   22 | Swabi Jehangira | 6th      | NULL |
++----+----------+-----------+------+-----------------+----------+------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM students WHERE Address LIKE "%Jehangira%";
++----+-----------+-----------+------+---------------------+----------+------+
+| Id | Name      | Rollno    | Age  | Address             | Semester | GPA  |
++----+-----------+-----------+------+---------------------+----------+------+
+|  2 | Amir ali  | CS-22/269 |   22 | Swabi Jehangira     | 6th      | NULL |
+|  5 | Maaz Khan | CS-22/285 |   23 | New Naher Jehangira | 5th      | 3.21 |
++----+-----------+-----------+------+---------------------+----------+------+
+2 rows in set (0.00 sec)
