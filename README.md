@@ -1,5 +1,5 @@
 # Database-Mysql
-#Create Table
+#Class 1
 mysql> SELECT * FROM students;
 +----+--------------+-----------+------+---------------------+----------+------------+------+---------------------+-------+
 | Id | Name         | Rollno    | Age  | Address             | Semester | Department | GPA  | email_Address       | phone |
